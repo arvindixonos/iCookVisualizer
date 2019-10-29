@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<robot name="iCookHand">
+  <material name="Black1">
+    <color rgba="0.2 0.2 0.2 1" />
+  </material>
+  <material name="Blue1">
+    <color rgba="1 0.2311 0.2311 1" />
+  </material>
+  <material name="Blue2">
+    <color rgba="0.1651 1 0.4582 1" />
+  </material>
+  <material name="Cyan1">
+    <color rgba="0 0.9 0.9 1" />
+  </material>
+  <material name="Default-Material">
+    <color rgba="1 1 1 1" />
+  </material>
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="2 2 0.5" />
+      </geometry>
+      <material name="Black1" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_1">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+    <visual>
+      <origin xyz="0 -0.307 0" />
+      <geometry>
+        <box size="0.6 1 0.5" />
+      </geometry>
+      <material name="Blue1" />
+    </visual>
+  </link>
+  <link name="link_2">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.29" />
+      <geometry>
+        <box size="0.6 1 0.5" />
+      </geometry>
+      <material name="Blue2" />
+    </visual>
+  </link>
+  <link name="link_3">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+    <visual>
+      <origin xyz="0.5 -0.157 1.261" />
+      <geometry>
+        <box size="0.6 0.5 2" />
+      </geometry>
+      <material name="Cyan1" />
+    </visual>
+  </link>
+  <link name="link_4">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+    <visual>
+      <origin xyz="0.5 -0.157 1.05" />
+      <geometry>
+        <box size="1 0.5 1.5" />
+      </geometry>
+      <material name="Default-Material" />
+    </visual>
+  </link>
+  <joint name="base_link_link_1_joint" type="fixed">
+    <origin xyz="0 0.8 0.5" />
+    <parent link="base_link" />
+    <child link="link_1" />
+  </joint>
+  <joint name="link_1_link_2_joint" type="revolute">
+    <origin xyz="0 -0.5 0.3" />
+    <parent link="link_1" />
+    <child link="link_2" />
+    <axis xyz="0 0 1" />
+    <dynamics friction="20000" />
+    <limit lower="-1.570796" upper="1.570796" effort="1000" velocity="1000" />
+  </joint>
+  <joint name="link_2_link_3_joint" type="revolute">
+    <origin xyz="-0.515 -0.064 0.373" />
+    <parent link="link_2" />
+    <child link="link_3" />
+    <axis xyz="-1 0 0" />
+    <dynamics friction="20000" />
+    <limit lower="-1.570796" upper="1.570796" effort="1000" velocity="1000" />
+  </joint>
+  <joint name="link_3_link_4_joint" type="revolute">
+    <origin xyz="0 0 2.04" />
+    <parent link="link_3" />
+    <child link="link_4" />
+    <axis xyz="1 0 0" />
+    <dynamics friction="20000" />
+    <limit lower="-1.570796" upper="1.570796" effort="1000" velocity="1000" />
+  </joint>
+</robot>
