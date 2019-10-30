@@ -70,7 +70,7 @@ namespace iCook
             {
                 currentAngle = angleNow;
 
-                Debug.Log("Angle Changed for " + jointType + " " + angleNow);
+                //Debug.Log("Angle Changed for " + jointType + " " + angleNow);
 
                 OnAngleChanged.Invoke(jointType, currentAngle);
             }

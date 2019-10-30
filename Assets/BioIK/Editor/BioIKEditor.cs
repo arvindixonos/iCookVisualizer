@@ -555,13 +555,13 @@ namespace BioIK {
 		}
 
 		public void OnSceneGUI() {
-			//DoF = 0;
-   //         DrawSkeleton(Target.FindSegment(Target.transform));
-   //         DrawSetup(Target.FindSegment(Target.transform), false);
-   //         if (Target.SelectedSegment != null)
-   //         {
-   //             DrawSegment(Target.SelectedSegment, true);
-   //         }
+            //DoF = 0;
+            //DrawSkeleton(Target.FindSegment(Target.transform));
+            //DrawSetup(Target.FindSegment(Target.transform), false);
+            //if (Target.SelectedSegment != null)
+            //{
+            //    DrawSegment(Target.SelectedSegment, true);
+            //}
         }
 
 		private bool StopDraw(BioSegment segment) {
