@@ -288,7 +288,6 @@ MonoBehaviour:
   MaximumVelocity: 3
   MaximumAcceleration: 3
   Segments:
-  - {fileID: 0}
   - {fileID: 7655020337212009342}
   - {fileID: 7655020337626504680}
   - {fileID: 7655020337440116107}
@@ -296,6 +295,7 @@ MonoBehaviour:
   - {fileID: 7655020338008405998}
   - {fileID: 7655020337541016567}
   - {fileID: 7655020336732772292}
+  - {fileID: 0}
   Root: {fileID: 0}
   Solution: []
   SelectedSegment: {fileID: 0}

@@ -16,14 +16,44 @@ namespace iCook
         STEP_ADD_INGREDIENT,
         STEP_STIR,
         STEP_SET_TEMPERATURE,
+        STEP_IDLE,
         STEP_COUNT
     }
 
     [System.Serializable]
     public class RecipeStep
     {
-        public eRecipeStep recipeStep;
+        public string recipeStep;
+        public eRecipeStep recipeStepEnum;
         public string payload;
+        public float StartTime;
+
+        private bool inited = false;
+
+        public static eRecipeStep GetRecipeStepEnum(string recipeStep)
+        {
+            switch (recipeStep)
+            {
+                case "Add Ingredient": return eRecipeStep.STEP_ADD_INGREDIENT;
+                case "Stir": return eRecipeStep.STEP_STIR;
+                case "Set Temperature": return eRecipeStep.STEP_SET_TEMPERATURE;
+                case "Idle": return eRecipeStep.STEP_IDLE;
+            }
+
+            return eRecipeStep.STEP_ADD_INGREDIENT;
+        }
+
+        public void Init()
+        {
+            if(inited)
+            {
+                return;
+            }
+
+            inited = true;
+
+            recipeStepEnum = GetRecipeStepEnum(recipeStep);
+        }
     }
 
     [System.Serializable]
@@ -32,6 +62,23 @@ namespace iCook
         public string recipeName;
         public eRecipe recipe;
         public List<RecipeStep> recipeSteps = new List<RecipeStep>();
+
+        private bool inited = false;
+
+        public void Init()
+        {
+            if(inited)
+            {
+                return;
+            }
+
+            inited = true;
+
+            foreach(RecipeStep recipeStep in recipeSteps)
+            {
+                recipeStep.Init();
+            }
+        }
 
         public void AddRecipeStep(RecipeStep recipeStep)
         {
@@ -48,11 +95,6 @@ namespace iCook
     {
         private List<Recipe> recipes = new List<Recipe>();
         private bool inited = false;
-
-        public void AddRecipe()
-        {
-            
-        }
 
         public void Init()
         {
@@ -72,7 +114,7 @@ namespace iCook
             {
                 string jsonText = File.ReadAllText(Application.streamingAssetsPath + "/Recipe/" + "American Pepper Chicken.txt");
                 Recipe recipe = JsonUtility.FromJson<Recipe>(jsonText);
-
+                recipe.Init();
                 recipes.Add(recipe);
             }
         }

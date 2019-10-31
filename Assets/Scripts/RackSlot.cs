@@ -25,13 +25,10 @@ namespace iCook
     }
 
     [System.Serializable]
-    public class RackSlot
+    public class RackSlot : MonoBehaviour
     {
-        public eIngredientType ingredientPresent;
+        public eIngredientType ingredientPresent = eIngredientType.ING_NONE;
         public Transform handlePosition;
-
         public eRackState currentRackState = eRackState.RACK_CLOSED;
-
-        public Transform rackHandleTarget;
     }
 }

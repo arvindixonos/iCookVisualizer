@@ -3,12 +3,49 @@
   "recipe": 0,
   "recipeSteps": [
     {
-      "recipeStep": 0,
-      "payload": "Oil"
+      "recipeStep": "Set Temperature",
+      "payload": "700",
+      "startTime": 0
     },
     {
-      "recipeStep": 1,
-      "payload": "Circle Pattern"
+      "recipeStep": "Add Ingredient",
+      "payload": "Oil",
+      "startTime": 11
+    },
+    {
+      "recipeStep": "Stir",
+      "payload": "Circle Pattern",
+      "startTime": 17
+    },
+    {
+      "recipeStep": "Add Ingredient",
+      "payload": "Onion",
+      "startTime": 50
+    },
+    {
+      "recipeStep": "Add Ingredient",
+      "payload": "Capsicum",
+      "startTime": 55
+    },
+    {
+      "recipeStep": "Add Ingredient",
+      "payload": "Chicken",
+      "startTime": 60
+    },
+    {
+      "recipeStep": "Stir",
+      "payload": "Circle Pattern",
+      "startTime": 70
+    },
+    {
+      "recipeStep": "Set Temperature",
+      "payload": "1400",
+      "startTime": 80
+    },
+    {
+      "recipeStep": "Stir",
+      "payload": "Circle Vigor Pattern",
+      "startTime": 100
     }
   ]
 }
