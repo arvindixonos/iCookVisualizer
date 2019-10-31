@@ -5,17 +5,6 @@ using UnityEngine;
 
 namespace iCook
 {
-    public enum eIngredientType
-    {
-        ING_NONE,
-        ING_OIL,
-        ING_ONION,
-        ING_CAPSICUM,
-        ING_CHICKEN,
-        ING_SALT,
-        ING_PEPPER
-    }
-
     public enum eRackState
     {
         RACK_CLOSED,

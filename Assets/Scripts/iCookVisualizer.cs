@@ -14,10 +14,13 @@ namespace iCook
         private UDPConnection udpConnection;
 
         private RecipeManager recipeManager;
+        private Recipe currentRecipe;
 
         void Start()
         {
             InitializeiCook();
+
+            StartCooking(eRecipe.RECIPE_AMERICAN_PEPPER_CHICKEN);
         }
 
         void InitializeiCook()
@@ -52,6 +55,13 @@ namespace iCook
             destinationIndex += copyLength;
 
             return accumulatedBytes;
+        }
+
+        public void StartCooking(eRecipe recipeType)
+        {
+            currentRecipe = recipeManager.GetRecipe(recipeType);
+
+
         }
 
         void Update()

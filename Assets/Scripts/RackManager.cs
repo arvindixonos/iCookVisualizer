@@ -8,16 +8,18 @@ namespace iCook
     {
         public RackSlot[] rackSlots;
 
-        // Start is called before the first frame update
-        void Start()
+        public RackSlot GetSlotWithIngredient(eIngredientType ingredientType)
         {
+            foreach(RackSlot rackSlot in rackSlots)
+            {
+                if(rackSlot.ingredientPresent == ingredientType)
+                {
+                    return rackSlot;
+                }
+            }
 
+            return null;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

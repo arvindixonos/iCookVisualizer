@@ -11,8 +11,20 @@ namespace iCook
         RECIPE_COUNT
     }
 
+    public enum eIngredientType
+    {
+        ING_NONE,
+        ING_OIL,
+        ING_ONION,
+        ING_CAPSICUM,
+        ING_CHICKEN,
+        ING_SALT,
+        ING_PEPPER
+    }
+
     public enum eRecipeStep
     {
+        STEP_NONE,
         STEP_ADD_INGREDIENT,
         STEP_STIR,
         STEP_SET_TEMPERATURE,
@@ -40,7 +52,22 @@ namespace iCook
                 case "Idle": return eRecipeStep.STEP_IDLE;
             }
 
-            return eRecipeStep.STEP_ADD_INGREDIENT;
+            return eRecipeStep.STEP_NONE;
+        }
+
+        public static eIngredientType GetIngredientTypeEnum(string ingredient)
+        {
+            switch(ingredient)
+            {
+                case "Oil": return eIngredientType.ING_OIL;
+                case "Onion": return eIngredientType.ING_ONION;
+                case "Capsicum": return eIngredientType.ING_CAPSICUM;
+                case "Chicken": return eIngredientType.ING_CHICKEN;
+                case "Salt": return eIngredientType.ING_SALT;
+                case "Pepper": return eIngredientType.ING_PEPPER;
+            }
+
+            return eIngredientType.ING_NONE;
         }
 
         public void Init()
@@ -117,6 +144,19 @@ namespace iCook
                 recipe.Init();
                 recipes.Add(recipe);
             }
+        }
+
+        public Recipe GetRecipe(eRecipe recipeType)
+        {
+            foreach(Recipe recipe in recipes)
+            {
+                if(recipe.recipe == recipeType)
+                {
+                    return recipe;
+                }
+            }
+
+            return null;
         }
     }
 }
