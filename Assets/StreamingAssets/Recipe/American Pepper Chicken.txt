@@ -1,0 +1,14 @@
+{
+  "recipeName": "American Pepper Chicken",
+  "recipe": 0,
+  "recipeSteps": [
+    {
+      "recipeStep": 0,
+      "payload": "Oil"
+    },
+    {
+      "recipeStep": 1,
+      "payload": "Circle Pattern"
+    }
+  ]
+}

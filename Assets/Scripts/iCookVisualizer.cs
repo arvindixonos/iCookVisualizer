@@ -7,13 +7,13 @@ namespace iCook
 {
     public class iCookVisualizer : Singleton<iCookVisualizer>
     {
-        public static float angleIncrementStep = 1f;
-
         public static string remoteIPAddress = "192.168.0.31";
         public static int remotePORT = 5555;
 
         public iCookHand cookHand;
-        public UDPConnection udpConnection;
+        private UDPConnection udpConnection;
+
+        private RecipeManager recipeManager;
 
         void Start()
         {
@@ -23,6 +23,8 @@ namespace iCook
         void InitializeiCook()
         {
             udpConnection = new UDPConnection(remoteIPAddress, remotePORT);
+            recipeManager = new RecipeManager();
+            recipeManager.Init();
 
             cookHand.OnAngleChanged += JointAngleChanged;
         }
