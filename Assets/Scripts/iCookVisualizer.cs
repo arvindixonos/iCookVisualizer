@@ -15,6 +15,12 @@ namespace iCook
 
         private RecipeManager recipeManager;
         private Recipe currentRecipe;
+        private float cookingTimer = 0f;
+        private bool startedCooking = false;
+        private Queue<RecipeStep> recipeStepQueue = new Queue<RecipeStep>();
+
+        private int iNextRecipeStep = 0;
+        private RecipeStep nextRecipeStep = null;
 
         void Start()
         {
@@ -59,14 +65,64 @@ namespace iCook
 
         public void StartCooking(eRecipe recipeType)
         {
+            startedCooking = true;
+            cookingTimer = 0f;
+            iNextRecipeStep = 0;
+            nextRecipeStep = null;
+
             currentRecipe = recipeManager.GetRecipe(recipeType);
+            FillNextRecipeStep();
+        }
 
+        public void StopCooking()
+        {
+            startedCooking = false; 
+        }
 
+        public RecipeStep GetRecipeStep(int stepIndex)
+        {
+            return  currentRecipe.GetRecipeStep(stepIndex);
+        }
+
+        void FireNextRecipeStep()
+        {
+            print("Firing Recipe Step : " + nextRecipeStep.recipeStep + 
+                " With Payload : " + nextRecipeStep.payload + " At Time : " + nextRecipeStep.startTime); 
+
+            recipeStepQueue.Enqueue(nextRecipeStep);
+            iNextRecipeStep += 1;
+
+            FillNextRecipeStep();
+        }
+
+        void FillNextRecipeStep()
+        {
+            if(currentRecipe.isStepPresent(iNextRecipeStep))
+            {
+                nextRecipeStep = currentRecipe.GetRecipeStep(iNextRecipeStep);
+            }
+            else
+            {
+                nextRecipeStep = null;
+            }
         }
 
         void Update()
         {
             cookHand.UpdateHand();
+
+            if(startedCooking)
+            {
+                cookingTimer += Time.deltaTime;
+
+                if(nextRecipeStep != null)
+                {
+                    if(nextRecipeStep.startTime < cookingTimer)
+                    {
+                        FireNextRecipeStep();
+                    }
+                }
+            }
         }
     }
 }

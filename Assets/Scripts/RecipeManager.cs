@@ -38,7 +38,7 @@ namespace iCook
         public string recipeStep;
         public eRecipeStep recipeStepEnum;
         public string payload;
-        public float StartTime;
+        public float startTime;
 
         private bool inited = false;
 
@@ -115,6 +115,11 @@ namespace iCook
         public RecipeStep GetRecipeStep(int recipeStep)
         {
             return recipeSteps[recipeStep];
+        }
+
+        public bool isStepPresent(int stepIndex)
+        {
+            return stepIndex < recipeSteps.Count;
         }
     }
 
