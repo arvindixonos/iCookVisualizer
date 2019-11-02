@@ -1,51 +1,49 @@
 {
   "recipeName": "American Pepper Chicken",
   "recipe": 0,
-  "recipeSteps": [
-    {
-      "recipeStep": "Set Temperature",
-      "payload": "700",
-      "startTime": 0
+  "recipeTasks": [
+	{
+      "recipeTask": "Idle",
+      "payload": "7"    
     },
     {
-      "recipeStep": "Add Ingredient",
-      "payload": "Oil",
-      "startTime": 11
+      "recipeTask": "Set Temperature",
+      "payload": "700"
     },
     {
-      "recipeStep": "Stir",
+      "recipeTask": "Add Ingredient",
+      "payload": "Oil"
+    },
+    {
+      "recipeTask": "Stir",
       "payload": "Circle Pattern",
-      "startTime": 17
+      "duration": 17
     },
     {
-      "recipeStep": "Add Ingredient",
-      "payload": "Onion",
-      "startTime": 50
+      "recipeTask": "Add Ingredient",
+      "payload": "Onion"
     },
     {
-      "recipeStep": "Add Ingredient",
-      "payload": "Capsicum",
-      "startTime": 55
+      "recipeTask": "Add Ingredient",
+      "payload": "Capsicum"
     },
     {
-      "recipeStep": "Add Ingredient",
-      "payload": "Chicken",
-      "startTime": 60
+      "recipeTask": "Add Ingredient",
+      "payload": "Chicken"
     },
     {
-      "recipeStep": "Stir",
+      "recipeTask": "Stir",
       "payload": "Circle Pattern",
-      "startTime": 70
+      "duration": 20
     },
     {
-      "recipeStep": "Set Temperature",
-      "payload": "1400",
-      "startTime": 80
+      "recipeTask": "Set Temperature",
+      "payload": "1400"
     },
     {
-      "recipeStep": "Stir",
+      "recipeTask": "Stir",
       "payload": "Circle Vigor Pattern",
-      "startTime": 100
+      "duration": 20
     }
   ]
 }

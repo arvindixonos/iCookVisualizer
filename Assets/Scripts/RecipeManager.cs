@@ -22,42 +22,87 @@ namespace iCook
         ING_PEPPER
     }
 
-    public enum eRecipeStep
+    public enum eRecipeTask
     {
-        STEP_NONE,
-        STEP_ADD_INGREDIENT,
-        STEP_STIR,
-        STEP_SET_TEMPERATURE,
-        STEP_IDLE,
-        STEP_COUNT
+        TASK_NONE,
+        TASK_ADD_INGREDIENT,
+        TASK_STIR,
+        TASK_SET_TEMPERATURE,
+        TASK_IDLE,
+        TASK_COUNT
     }
 
     [System.Serializable]
-    public class RecipeStep
+    public class RecipeTask
     {
-        public string recipeStep;
-        public eRecipeStep recipeStepEnum;
+        public string recipeTask;
+        public eRecipeTask recipeTaskEnum;
         public string payload;
-        public float startTime;
+        public float duration;
 
         private bool inited = false;
 
-        public static eRecipeStep GetRecipeStepEnum(string recipeStep)
+        public void Init()
         {
-            switch (recipeStep)
+            if(inited)
             {
-                case "Add Ingredient": return eRecipeStep.STEP_ADD_INGREDIENT;
-                case "Stir": return eRecipeStep.STEP_STIR;
-                case "Set Temperature": return eRecipeStep.STEP_SET_TEMPERATURE;
-                case "Idle": return eRecipeStep.STEP_IDLE;
+                return;
             }
 
-            return eRecipeStep.STEP_NONE;
+            inited = true;
+
+            recipeTaskEnum =  RecipeManager.GetRecipeTaskEnum(recipeTask);
         }
+    }
+
+    [System.Serializable]
+    public class Recipe
+    {
+        public string recipeName;
+        public eRecipe recipe;
+        public List<RecipeTask> recipeTasks = new List<RecipeTask>();
+
+        private bool inited = false;
+
+        public void Init()
+        {
+            if(inited)
+            {
+                return;
+            }
+
+            inited = true;
+
+            foreach(RecipeTask recipeTask in recipeTasks)
+            {
+                recipeTask.Init();
+            }
+        }
+
+        public void AddRecipeTask(RecipeTask recipeTask)
+        {
+            recipeTasks.Add(recipeTask);
+        }
+
+        public RecipeTask GetRecipeTask(int taskIndex)
+        {
+            return recipeTasks[taskIndex];
+        }
+
+        public bool isTaskPresent(int taskIndex)
+        {
+            return taskIndex < recipeTasks.Count;
+        }
+    }
+
+    public class RecipeManager
+    {
+        private List<Recipe> recipes = new List<Recipe>();
+        private bool inited = false;
 
         public static eIngredientType GetIngredientTypeEnum(string ingredient)
         {
-            switch(ingredient)
+            switch (ingredient)
             {
                 case "Oil": return eIngredientType.ING_OIL;
                 case "Onion": return eIngredientType.ING_ONION;
@@ -70,63 +115,18 @@ namespace iCook
             return eIngredientType.ING_NONE;
         }
 
-        public void Init()
+        public static eRecipeTask GetRecipeTaskEnum(string recipeTask)
         {
-            if(inited)
+            switch (recipeTask)
             {
-                return;
+                case "Add Ingredient": return eRecipeTask.TASK_ADD_INGREDIENT;
+                case "Stir": return eRecipeTask.TASK_STIR;
+                case "Set Temperature": return eRecipeTask.TASK_SET_TEMPERATURE;
+                case "Idle": return eRecipeTask.TASK_IDLE;
             }
 
-            inited = true;
-
-            recipeStepEnum = GetRecipeStepEnum(recipeStep);
+            return eRecipeTask.TASK_NONE;
         }
-    }
-
-    [System.Serializable]
-    public class Recipe
-    {
-        public string recipeName;
-        public eRecipe recipe;
-        public List<RecipeStep> recipeSteps = new List<RecipeStep>();
-
-        private bool inited = false;
-
-        public void Init()
-        {
-            if(inited)
-            {
-                return;
-            }
-
-            inited = true;
-
-            foreach(RecipeStep recipeStep in recipeSteps)
-            {
-                recipeStep.Init();
-            }
-        }
-
-        public void AddRecipeStep(RecipeStep recipeStep)
-        {
-            recipeSteps.Add(recipeStep);
-        }
-
-        public RecipeStep GetRecipeStep(int recipeStep)
-        {
-            return recipeSteps[recipeStep];
-        }
-
-        public bool isStepPresent(int stepIndex)
-        {
-            return stepIndex < recipeSteps.Count;
-        }
-    }
-
-    public class RecipeManager
-    {
-        private List<Recipe> recipes = new List<Recipe>();
-        private bool inited = false;
 
         public void Init()
         {
