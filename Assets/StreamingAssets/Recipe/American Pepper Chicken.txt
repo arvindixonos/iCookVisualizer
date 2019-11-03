@@ -8,42 +8,11 @@
     },
     {
       "recipeTask": "Set Temperature",
-      "payload": "700"
+      "payload": "900"
     },
     {
       "recipeTask": "Add Ingredient",
       "payload": "Oil"
-    },
-    {
-      "recipeTask": "Stir",
-      "payload": "Circle Pattern",
-      "duration": 17
-    },
-    {
-      "recipeTask": "Add Ingredient",
-      "payload": "Onion"
-    },
-    {
-      "recipeTask": "Add Ingredient",
-      "payload": "Capsicum"
-    },
-    {
-      "recipeTask": "Add Ingredient",
-      "payload": "Chicken"
-    },
-    {
-      "recipeTask": "Stir",
-      "payload": "Circle Pattern",
-      "duration": 20
-    },
-    {
-      "recipeTask": "Set Temperature",
-      "payload": "1400"
-    },
-    {
-      "recipeTask": "Stir",
-      "payload": "Circle Vigor Pattern",
-      "duration": 20
     }
   ]
 }

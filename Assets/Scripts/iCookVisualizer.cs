@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BioIK;
 
 namespace iCook
 {
@@ -39,15 +38,29 @@ namespace iCook
 
         public RackManager rackManager;
 
-        public BioIK.BioIK bioIK;
-        private BioIK.Position handBioObjectivePosition;
         public Transform clawTip;
-
+       
         private Stove stove;
 
         private RecipeTask currentRecipeTask;
         private int recipeTaskIndex = 0;
 
+        public RootMotion.FinalIK.CCDIK ccdIK;
+
+        public int currentTemperature = 700;
+        public int CurrentTemperature
+        {
+            get { return currentTemperature; }
+            set { currentTemperature = value; }
+        }
+        private int temperatureStep = 100;
+        public int TemperatureStep
+        {
+            get { return temperatureStep; }
+            set { temperatureStep = value; }
+        }
+        private int minTemperature = 700;
+        private int maxTemperature = 2000;
 
         void Start()
         {
@@ -56,15 +69,34 @@ namespace iCook
             StartCooking(eRecipe.RECIPE_AMERICAN_PEPPER_CHICKEN);
         }
 
+        public void TemperatureIncreased()
+        {
+            CurrentTemperature += TemperatureStep;
+            CurrentTemperature = Mathf.Clamp(CurrentTemperature, minTemperature, maxTemperature);
+        }
+
+        public void TemperatureDecreased()
+        {
+            CurrentTemperature -= TemperatureStep;
+            CurrentTemperature = Mathf.Clamp(CurrentTemperature, minTemperature, maxTemperature);
+        }
+
         public Transform GetTargetPosition(ePositionType positionType, System.Object payload = null)
         {
             switch(positionType)
             {
                 case ePositionType.POSITION_IDLE: return positionsInfos[(int)positionType].targetPosition;
-
+                case ePositionType.POSITION_TEMPERATURE_UP: return positionsInfos[(int)positionType].targetPosition;
+                case ePositionType.POSITION_TEMPERATURE_DOWN: return positionsInfos[(int)positionType].targetPosition;
                 case ePositionType.POSITION_INGREDIENT_RACK:
-                        eIngredientType ingredientType = RecipeManager.GetIngredientTypeEnum(payload as string);
-                    break;
+                    RackSlot rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
+
+                    if(rackSlot != null)
+                    {
+                        return rackSlot.handleStartPosition;
+                    }
+
+                    break; 
             }
 
             return null;
@@ -77,8 +109,6 @@ namespace iCook
             recipeManager.Init();
 
             taskMachine = new TaskMachine();
-
-            handBioObjectivePosition = bioIK.Segments[142].Objectives[0] as BioIK.Position;
 
             stove = new Stove();
             stove.SwitchOnStove();
@@ -95,7 +125,7 @@ namespace iCook
 
         public void SetHandTarget(Transform target)
         {
-            handBioObjectivePosition.SetTargetTransform(target);
+            ccdIK.solver.target = target;
         }
 
         public void JointAngleChanged(eJointType jointType, float currentAngle)

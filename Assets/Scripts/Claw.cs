@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BioIK;
+using DG.Tweening;
 
 
 namespace iCook
@@ -18,26 +18,45 @@ namespace iCook
 
         public eClawState currentClawState = eClawState.CLAW_CLOSED;
 
-        private BioSegment rightClawSegment;
-        private BioJoint rightClawJoint;
-        private BioSegment leftClawSegment;
-        private BioJoint leftClawJoint;
+        private Transform leftClaw;
+        private Transform rightClaw;
 
-        public Claw(BioIK.BioIK bioIK, string rightClawName, string leftClawName)
+        public Claw(Transform leftClaw, Transform rightClaw)
         {
-            rightClawSegment = bioIK.FindSegment(rightClawName);
-            rightClawJoint = rightClawSegment.Joint;
-
-            leftClawSegment = bioIK.FindSegment(leftClawName);
-            leftClawJoint = leftClawSegment.Joint;
+            this.leftClaw = leftClaw;
+            this.rightClaw = rightClaw;
         }
 
-        public void SetClawAngle(float angle)
+        public void OpenClaw()
         {
-            angle = Mathf.Clamp(angle, 0f, 50f);
+            currentClawState = eClawState.CLAW_OPENING;
 
-            rightClawJoint.Y.SetTargetValue(angle);
-            leftClawJoint.Y.SetTargetValue(-angle);
+            leftClaw.DOKill();
+            leftClaw.DOLocalRotate(new Vector3(0f, 0f, 50f), 1f).OnComplete(OpenClawComplete);
+
+            rightClaw.DOKill();
+            rightClaw.DOLocalRotate(new Vector3(0f, 0f, -50f), 1f);
+        }
+
+        void OpenClawComplete()
+        {
+            currentClawState = eClawState.CLAW_OPEN;
+        }
+
+        public void CloseClaw()
+        {
+            currentClawState = eClawState.CLAW_CLOSING;
+
+            leftClaw.DOKill();
+            leftClaw.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f).OnComplete(CloseClawComplete);
+
+            rightClaw.DOKill();
+            rightClaw.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f);
+        }
+
+        void CloseClawComplete()
+        {
+            currentClawState = eClawState.CLAW_CLOSED;
         }
     }
 }

@@ -17,7 +17,8 @@ namespace iCook
     public class RackSlot : MonoBehaviour
     {
         public eIngredientType ingredientPresent = eIngredientType.ING_NONE;
-        public Transform handlePosition;
+        public Transform handleStartPosition;
+        public Transform handleHoldPosition;
         public eRackState currentRackState = eRackState.RACK_CLOSED;
     }
 }

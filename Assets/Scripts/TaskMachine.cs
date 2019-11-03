@@ -42,7 +42,7 @@ namespace iCook
 
         public void StateComplete()
         {
-            Debug.Log("State Complete: " + currentState.ToString());
+            //Debug.Log("State Complete: " + currentState.ToString());
 
             currentState.ExitState();
 
@@ -79,16 +79,72 @@ namespace iCook
 
         public void SetCurrentTask(RecipeTask recipeTask)
         {
+            Debug.Log("Entering Task: " + recipeTask.recipeTaskEnum);
+
             switch (recipeTask.recipeTaskEnum)
             {
                 case eRecipeTask.TASK_IDLE:
-                    State moveToPositionState = new MoveToPositionState(recipeTask.payload); states.Enqueue(moveToPositionState);
+                    SetIdleTask();
+                    break;
+
+                case eRecipeTask.TASK_SET_TEMPERATURE:
+                    SetTemperatureTask(recipeTask);
                     break;
 
                 case eRecipeTask.TASK_ADD_INGREDIENT:
-                    //state = new AddIngredientState();
+                    SetAddIngredientTask(recipeTask);
                     break;
             }
+        }
+
+        void SetIdleTask()
+        {
+            Transform idleTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_IDLE);
+            State moveToPositionState = new MoveToPositionState(idleTransform);
+            states.Enqueue(moveToPositionState);
+        }
+
+        void SetAddIngredientTask(RecipeTask recipeTask)
+        {
+            string ingredient = recipeTask.payload;
+
+            Transform ingredientTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_INGREDIENT_RACK, ingredient);
+            State moveToPositionState = new MoveToPositionState(ingredientTransform);
+            states.Enqueue(moveToPositionState);
+        }
+
+        void SetTemperatureTask(RecipeTask recipeTask)
+        {
+            int targetTemperature = int.Parse(recipeTask.payload);
+            int currentTemperature = iCookVisualizer.Instance.CurrentTemperature;
+            int differenceTemperature = currentTemperature - targetTemperature;
+
+            if (differenceTemperature == 0)
+                return;
+
+            int tapCount = Mathf.Abs(differenceTemperature / iCookVisualizer.Instance.TemperatureStep);
+            TapInfo tapInfo = new TapInfo();
+            tapInfo.tapCount = tapCount;
+
+            if (differenceTemperature > 0)
+            {
+                Transform temperatureDownTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_TEMPERATURE_DOWN);
+                State moveToPositionState = new MoveToPositionState(temperatureDownTransform);
+                states.Enqueue(moveToPositionState);
+
+                tapInfo.OnTapComplete = iCookVisualizer.Instance.TemperatureDecreased;
+            }
+            else if (differenceTemperature < 0)
+            {
+                Transform temperatureUpTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_TEMPERATURE_UP);
+                State moveToPositionState = new MoveToPositionState(temperatureUpTransform);
+                states.Enqueue(moveToPositionState);
+
+                tapInfo.OnTapComplete = iCookVisualizer.Instance.TemperatureIncreased;
+            }
+
+            TapState tapState = new TapState(tapInfo);
+            states.Enqueue(tapState);
         }
 
         public void UpdateTaskMachine()
