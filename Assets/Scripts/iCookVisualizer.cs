@@ -56,14 +56,14 @@ namespace iCook
             StartCooking(eRecipe.RECIPE_AMERICAN_PEPPER_CHICKEN);
         }
 
-        public UnityEngine.Object GetPosition(ePositionType positionType, string payload = null)
+        public Transform GetTargetPosition(ePositionType positionType, System.Object payload = null)
         {
             switch(positionType)
             {
                 case ePositionType.POSITION_IDLE: return positionsInfos[(int)positionType].targetPosition;
 
                 case ePositionType.POSITION_INGREDIENT_RACK:
-                        eIngredientType ingredientType = RecipeManager.GetIngredientTypeEnum(payload);
+                        eIngredientType ingredientType = RecipeManager.GetIngredientTypeEnum(payload as string);
                     break;
             }
 

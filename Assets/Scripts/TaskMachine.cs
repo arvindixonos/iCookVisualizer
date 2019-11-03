@@ -7,9 +7,9 @@ namespace iCook
 {
     public class State
     {
-        protected string payload;
+        protected System.Object payload;
 
-        public State(string payload)
+        public State(System.Object payload)
         {
             this.payload = payload;
         }
@@ -82,7 +82,7 @@ namespace iCook
             switch (recipeTask.recipeTaskEnum)
             {
                 case eRecipeTask.TASK_IDLE:
-                    State idleState = new IdleState(recipeTask.payload); states.Enqueue(idleState);
+                    State moveToPositionState = new MoveToPositionState(recipeTask.payload); states.Enqueue(moveToPositionState);
                     break;
 
                 case eRecipeTask.TASK_ADD_INGREDIENT:
