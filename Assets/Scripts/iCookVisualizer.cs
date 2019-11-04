@@ -9,7 +9,10 @@ namespace iCook
         POSITION_IDLE,
         POSITION_TEMPERATURE_UP,
         POSITION_TEMPERATURE_DOWN,
-        POSITION_INGREDIENT_RACK
+        POSITION_INGREDIENT_RACK_START,
+        POSITION_INGREDIENT_RACK_HOLD,
+        POSITION_INGREDIENT_RACK_FETCH,
+        POSITION_DROP_TO_PAN
     }
 
     [System.Serializable]
@@ -39,10 +42,16 @@ namespace iCook
         public RackManager rackManager;
 
         public Transform clawTip;
-       
+        public Transform rack;
+
         private Stove stove;
 
         private RecipeTask currentRecipeTask;
+        public iCook.RecipeTask CurrentRecipeTask
+        {
+            get { return currentRecipeTask; }
+            set { currentRecipeTask = value; }
+        }
         private int recipeTaskIndex = 0;
 
         public RootMotion.FinalIK.CCDIK ccdIK;
@@ -81,22 +90,58 @@ namespace iCook
             CurrentTemperature = Mathf.Clamp(CurrentTemperature, minTemperature, maxTemperature);
         }
 
+        public RackSlot GetRackSlot(eIngredientType ingredientType)
+        {
+            return rackManager.GetSlotWithIngredient(ingredientType);
+        }
+
+        private Transform GetPositionTransform(ePositionType positionType)
+        {
+            foreach(PositionsInfo positionsInfo in positionsInfos)
+            {
+                if(positionsInfo.positionType == positionType)
+                {
+                    return positionsInfo.targetPosition;
+                }
+            }
+
+            return null;
+        }
+
         public Transform GetTargetPosition(ePositionType positionType, System.Object payload = null)
         {
             switch(positionType)
             {
-                case ePositionType.POSITION_IDLE: return positionsInfos[(int)positionType].targetPosition;
-                case ePositionType.POSITION_TEMPERATURE_UP: return positionsInfos[(int)positionType].targetPosition;
-                case ePositionType.POSITION_TEMPERATURE_DOWN: return positionsInfos[(int)positionType].targetPosition;
-                case ePositionType.POSITION_INGREDIENT_RACK:
+                case ePositionType.POSITION_IDLE: 
+                case ePositionType.POSITION_TEMPERATURE_UP:
+                case ePositionType.POSITION_TEMPERATURE_DOWN:
+                case ePositionType.POSITION_DROP_TO_PAN: return GetPositionTransform(positionType);
+                case ePositionType.POSITION_INGREDIENT_RACK_START:
                     RackSlot rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
-
                     if(rackSlot != null)
                     {
                         return rackSlot.handleStartPosition;
                     }
 
-                    break; 
+                    break;
+
+                case ePositionType.POSITION_INGREDIENT_RACK_HOLD:
+                    rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
+                    if (rackSlot != null)
+                    {
+                        return rackSlot.handleHoldPosition;
+                    }
+
+                    break;
+
+                case ePositionType.POSITION_INGREDIENT_RACK_FETCH:
+                    rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
+                    if (rackSlot != null)
+                    {
+                        return rackSlot.handleFetchPosition;
+                    }
+
+                    break;
             }
 
             return null;
@@ -170,9 +215,9 @@ namespace iCook
 
             if(currentRecipe.isTaskPresent(recipeTaskIndex))
             {
-                currentRecipeTask = currentRecipe.GetRecipeTask(recipeTaskIndex);
+                CurrentRecipeTask = currentRecipe.GetRecipeTask(recipeTaskIndex);
 
-                taskMachine.SetCurrentTask(currentRecipeTask);
+                taskMachine.SetCurrentTask(CurrentRecipeTask);
                 taskMachine.RunTaskMachine();
 
                 return true;
@@ -188,7 +233,7 @@ namespace iCook
 
         void TaskComplete()
         {
-            print("Task Completed: " + currentRecipeTask.recipeTaskEnum);
+            print("Task Completed: " + CurrentRecipeTask.recipeTaskEnum);
 
             GotoNextTask();
         }

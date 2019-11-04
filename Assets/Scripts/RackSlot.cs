@@ -19,6 +19,17 @@ namespace iCook
         public eIngredientType ingredientPresent = eIngredientType.ING_NONE;
         public Transform handleStartPosition;
         public Transform handleHoldPosition;
+        public Transform handleFetchPosition;
         public eRackState currentRackState = eRackState.RACK_CLOSED;
+
+        public void AttachToClaw()
+        {
+            transform.parent = iCookVisualizer.Instance.clawTip;
+        }
+
+        public void DetchFromClaw()
+        {
+            transform.parent = iCookVisualizer.Instance.rack;
+        }
     }
 }

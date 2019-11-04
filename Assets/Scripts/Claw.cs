@@ -1,22 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using DG.Tweening;
 
 
 namespace iCook
 {
+    public enum eClawState
+    {
+        CLAW_CLOSED,
+        CLAW_OPEN,
+        CLAW_CLOSING,
+        CLAW_OPENING
+    }
+
     public class Claw 
     {
-        public enum eClawState
-        {
-            CLAW_CLOSED,
-            CLAW_OPEN,
-            CLAW_CLOSING,
-            CLAW_OPENING
-        }
-
         public eClawState currentClawState = eClawState.CLAW_CLOSED;
+
+        public Action<eClawState> OnClawStateChanged;
 
         private Transform leftClaw;
         private Transform rightClaw;
@@ -29,23 +30,23 @@ namespace iCook
 
         public void OpenClaw()
         {
-            currentClawState = eClawState.CLAW_OPENING;
+            SetClawState(eClawState.CLAW_OPENING);
 
             leftClaw.DOKill();
-            leftClaw.DOLocalRotate(new Vector3(0f, 0f, 50f), 1f).OnComplete(OpenClawComplete);
+            leftClaw.DOLocalRotate(new Vector3(0f, 0f, -50f), 1f).OnComplete(OpenClawComplete);
 
             rightClaw.DOKill();
-            rightClaw.DOLocalRotate(new Vector3(0f, 0f, -50f), 1f);
+            rightClaw.DOLocalRotate(new Vector3(0f, 0f, 50f), 1f);
         }
 
         void OpenClawComplete()
         {
-            currentClawState = eClawState.CLAW_OPEN;
+            SetClawState(eClawState.CLAW_OPEN);
         }
 
         public void CloseClaw()
         {
-            currentClawState = eClawState.CLAW_CLOSING;
+            SetClawState(eClawState.CLAW_CLOSING);
 
             leftClaw.DOKill();
             leftClaw.DOLocalRotate(new Vector3(0f, 0f, 0f), 1f).OnComplete(CloseClawComplete);
@@ -56,7 +57,17 @@ namespace iCook
 
         void CloseClawComplete()
         {
-            currentClawState = eClawState.CLAW_CLOSED;
+            SetClawState(eClawState.CLAW_CLOSED);
+        }
+
+        public void SetClawState(eClawState clawState)
+        {
+            currentClawState = clawState;
+
+            if(OnClawStateChanged != null)
+            {
+                OnClawStateChanged(currentClawState);
+            }
         }
     }
 }

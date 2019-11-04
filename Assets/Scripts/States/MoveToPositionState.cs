@@ -8,23 +8,30 @@ namespace iCook
 {
     public class MoveToPositionState : State
     {
-        private Transform targetPosition = null;
+        private Transform targetTransform = null;
         private GameObject moverObject = null;
+        private Vector3 targetPosition = Vector3.zero;
 
         public MoveToPositionState(System.Object payload):base(payload)
         {
-            targetPosition = payload as Transform;
+            targetTransform = payload as Transform;
+            targetPosition = targetTransform.position;
         }
 
         public override void EnterState()
         {
-            moverObject = new GameObject("Mover");
+            moverObject = new GameObject();
             moverObject.transform.position = iCookVisualizer.Instance.clawTip.position;
 
             moverObject.transform.DOKill();
-            moverObject.transform.DOMove(targetPosition.position, 2f);
+            moverObject.transform.DOMove(targetPosition, 2f).OnComplete(StateComplete);
 
             iCookVisualizer.Instance.SetHandTarget(moverObject.transform);
+        }
+
+        void StateComplete()
+        {
+            OnStateComplete();
         }
 
         public override void ExitState()
@@ -34,12 +41,7 @@ namespace iCook
 
         public override void UpdateState()
         {
-            float magnitude = Vector3.Magnitude(targetPosition.position - iCookVisualizer.Instance.clawTip.position);
-
-            if(magnitude < 0.1f)
-            {
-                OnStateComplete();
-            }
+         
         }
     }
 }

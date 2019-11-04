@@ -10,6 +10,8 @@ namespace iCook
 
         public Action<eJointType, float> OnAngleChanged;
 
+        public static Action<eClawState> OnClawStateChanged;
+
         public Transform leftClaw;
         public Transform rightClaw;
         private Claw claw;
@@ -30,11 +32,27 @@ namespace iCook
             }
 
             claw = new Claw(leftClaw, rightClaw);
+            claw.OnClawStateChanged += ClawStateChanged;
         }
 
         public void JointAngleChanged(eJointType jointType, float currentAngle)
         {
             OnAngleChanged?.Invoke(jointType, currentAngle);
+        }
+
+        public void OpenClaw()
+        {
+            claw.OpenClaw();
+        }
+
+        public void CloseClaw()
+        {
+            claw.CloseClaw();
+        }
+
+        public void ClawStateChanged(eClawState clawState)
+        {
+            OnClawStateChanged?.Invoke(clawState);
         }
 
         public void UpdateHand()

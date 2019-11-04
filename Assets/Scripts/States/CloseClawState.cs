@@ -4,23 +4,25 @@ using UnityEngine;
 
 namespace iCook
 {
-    public class OpenClawState : State
+    public class CloseClawState : State
     {
-        public OpenClawState(System.Object payload = null) : base(payload)
+        public CloseClawState(System.Object payload = null) : base(payload)
         {
-           
+
         }
 
         public override void EnterState()
         {
             iCookHand.OnClawStateChanged += ClawStateChanged;
-            iCookHand.Instance.OpenClaw();
+            iCookHand.Instance.CloseClaw();
         }
 
         public void ClawStateChanged(eClawState clawState)
         {
-            if(clawState == eClawState.CLAW_OPEN)
+            if (clawState == eClawState.CLAW_CLOSED)
             {
+                RackSlot rackSlot = (RackSlot)payload;
+                rackSlot.AttachToClaw();
                 OnStateComplete();
             }
         }

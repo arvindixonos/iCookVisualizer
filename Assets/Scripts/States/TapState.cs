@@ -37,7 +37,7 @@ namespace iCook
             iCookVisualizer.Instance.SetHandTarget(targetTapObject.transform);
 
             targetTapObject.transform.DOKill();
-            targetTapObject.transform.DOBlendableLocalMoveBy(new Vector3(0f, -0.5f, 0f), 1f).SetLoops(tapCount, LoopType.Yoyo)
+            targetTapObject.transform.DOBlendableLocalMoveBy(new Vector3(0f, -0.5f, 0f), 1f).SetLoops(tapCount * 2, LoopType.Yoyo)
                 .OnStepComplete(StepComplete).OnComplete(StateComplete);
         }
 
