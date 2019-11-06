@@ -9,9 +9,7 @@ namespace iCook
         POSITION_IDLE,
         POSITION_TEMPERATURE_UP,
         POSITION_TEMPERATURE_DOWN,
-        POSITION_INGREDIENT_RACK_START,
         POSITION_INGREDIENT_RACK_HOLD,
-        POSITION_INGREDIENT_RACK_FETCH,
         POSITION_DROP_TO_PAN
     }
 
@@ -116,29 +114,12 @@ namespace iCook
                 case ePositionType.POSITION_TEMPERATURE_UP:
                 case ePositionType.POSITION_TEMPERATURE_DOWN:
                 case ePositionType.POSITION_DROP_TO_PAN: return GetPositionTransform(positionType);
-                case ePositionType.POSITION_INGREDIENT_RACK_START:
-                    RackSlot rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
-                    if(rackSlot != null)
-                    {
-                        return rackSlot.handleStartPosition;
-                    }
-
-                    break;
-
+            
                 case ePositionType.POSITION_INGREDIENT_RACK_HOLD:
-                    rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
+                    RackSlot rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
                     if (rackSlot != null)
                     {
                         return rackSlot.handleHoldPosition;
-                    }
-
-                    break;
-
-                case ePositionType.POSITION_INGREDIENT_RACK_FETCH:
-                    rackSlot = rackManager.GetSlotWithIngredient(RecipeManager.GetIngredientTypeEnum((string)payload));
-                    if (rackSlot != null)
-                    {
-                        return rackSlot.handleFetchPosition;
                     }
 
                     break;
