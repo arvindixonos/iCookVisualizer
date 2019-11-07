@@ -91,9 +91,9 @@ namespace iCook
                 //    SetTemperatureTask(recipeTask);
                 //    break;
 
-                //case eRecipeTask.TASK_ADD_INGREDIENT:
-                //    SetAddIngredientTask(recipeTask);
-                //    break;
+                case eRecipeTask.TASK_ADD_INGREDIENT:
+                    SetAddIngredientTask(recipeTask);
+                    break;
             }
         }
 
@@ -108,29 +108,32 @@ namespace iCook
         {
             string ingredient = recipeTask.payload;
 
-            //Transform ingredientTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_INGREDIENT_RACK_START, recipeTask.payload);
-            //State moveToPositionState = new MoveToPositionState(ingredientTransform);
-            //states.Enqueue(moveToPositionState);
+            Transform holdPosition = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_INGREDIENT_RACK_HOLD, recipeTask.payload);
 
-            //OpenClawState openClawState = new OpenClawState();
-            //states.Enqueue(openClawState);
+            Transform startPosition = holdPosition;
+            startPosition.localPosition = startPosition.localPosition + holdPosition.transform.forward * 0.2f;
+            State moveToPositionState = new MoveToPositionState(startPosition);
+            states.Enqueue(moveToPositionState);
 
-            //ingredientTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_INGREDIENT_RACK_HOLD, recipeTask.payload);
-            //moveToPositionState = new MoveToPositionState(ingredientTransform);
-            //states.Enqueue(moveToPositionState);
+            OpenClawState openClawState = new OpenClawState();
+            states.Enqueue(openClawState);
 
-            //RackSlot rackSlot = iCookVisualizer.Instance.GetRackSlot(RecipeManager.GetIngredientTypeEnum(ingredient));
+            moveToPositionState = new MoveToPositionState(holdPosition);
+            states.Enqueue(moveToPositionState);
 
-            //CloseClawState closeClawState = new CloseClawState(rackSlot);
-            //states.Enqueue(closeClawState);
+            RackSlot rackSlot = iCookVisualizer.Instance.GetRackSlot(RecipeManager.GetIngredientTypeEnum(ingredient));
 
-            //Transform fetchTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_INGREDIENT_RACK_FETCH, recipeTask.payload);
-            //moveToPositionState = new MoveToPositionState(fetchTransform);
-            //states.Enqueue(moveToPositionState);
+            CloseClawState closeClawState = new CloseClawState(rackSlot);
+            states.Enqueue(closeClawState);
 
-            //Transform dropTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_DROP_TO_PAN);
-            //moveToPositionState = new MoveToPositionState(dropTransform);
-            //states.Enqueue(moveToPositionState);
+            Transform fetchPosition = holdPosition;
+            fetchPosition.localPosition = fetchPosition.localPosition + holdPosition.transform.forward * -0.2f;
+            moveToPositionState = new MoveToPositionState(fetchPosition);
+            states.Enqueue(moveToPositionState);
+
+            Transform dropTransform = iCookVisualizer.Instance.GetTargetPosition(ePositionType.POSITION_DROP_TO_PAN);
+            moveToPositionState = new MoveToPositionState(dropTransform);
+            states.Enqueue(moveToPositionState);
         }
 
         void SetTemperatureTask(RecipeTask recipeTask)
