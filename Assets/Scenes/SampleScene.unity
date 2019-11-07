@@ -1404,11 +1404,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789102995}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -0.13270007, y: 0.699, z: 0.036199935}
+  m_LocalPosition: {x: 0.0022997558, y: 0.96489996, z: 0.036199898}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8007110744249290925}
-  m_RootOrder: 5
+  m_Father: {fileID: 8007110744471905845}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1789247094
 GameObject:
@@ -1640,6 +1640,7 @@ MonoBehaviour:
   rackManager: {fileID: 8296172668282346265}
   clawTip: {fileID: 1789102996}
   rack: {fileID: 5006512736252782859}
+  clawRotator: {fileID: 8007110744471905845}
   ccdIK: {fileID: 8007110742943829493}
   currentTemperature: 700
 --- !u!4 &1846700276
@@ -6351,7 +6352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixTransforms: 1
   solver:
-    IKPosition: {x: -0.9215918, y: 4.5017457, z: 0.43624654}
+    IKPosition: {x: -0.8771753, y: 4.4984455, z: 0.44086176}
     IKPositionWeight: 1
     root: {fileID: 8007110742943829494}
     target: {fileID: 329345012}
@@ -6393,18 +6394,9 @@ MonoBehaviour:
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
       defaultLocalPosition: {x: 0, y: 0.7301009, z: 0}
       defaultLocalRotation: {x: -0, y: -0, z: -0, w: 1}
-      length: 0.42920017
+      length: 1.421307
       sqrMag: 0
-      axis: {x: -0, y: 0.42920017, z: 0}
-    - transform: {fileID: 8007110744471905845}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: 0.4292001, z: 0}
-      defaultLocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-      length: 1.0235373
-      sqrMag: 0
-      axis: {x: 0.3410336, y: 0.96099997, z: -0.08833881}
+      axis: {x: -0.09295396, y: 1.3869, z: -0.29661697}
     - transform: {fileID: 1789102996}
       weight: 1
       solverPosition: {x: 0, y: 0, z: 0}
@@ -6413,7 +6405,7 @@ MonoBehaviour:
       defaultLocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
       length: 1.4265782
       sqrMag: 0
-      axis: {x: -0.34103346, y: 0.08833764, z: -3.2415025}
+      axis: {x: 0.09295407, y: 0.2966162, z: -3.2382019}
 --- !u!4 &8007110742943829494
 Transform:
   m_ObjectHideFlags: 0
@@ -9024,8 +9016,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8007110744249290924}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4475, y: 0.26200008, z: -0.13190013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.135, y: 0.2659, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8007110744426272556}
@@ -9033,7 +9025,6 @@ Transform:
   - {fileID: 5006512735673485318}
   - {fileID: 8007110744182669664}
   - {fileID: 8007110744699458903}
-  - {fileID: 1789102996}
   m_Father: {fileID: 8007110744471905845}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9050,7 +9041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 0, z: 1}
-  defaultLocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
   min: -90
   max: 90
@@ -9349,14 +9340,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8007110744471905844}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.4292001, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.103, y: 0.422, z: -0.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8007110744249290925}
+  - {fileID: 1789102996}
   m_Father: {fileID: 8007110744699203940}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8007110744471905846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9370,7 +9362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axis: {x: 0, y: 1, z: 0}
-  defaultLocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
   min: -90
   max: 90

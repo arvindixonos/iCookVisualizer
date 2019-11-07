@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace iCook
 {
@@ -42,6 +44,9 @@ namespace iCook
         public Transform clawTip;
         public Transform rack;
 
+        public Transform clawRotator;
+        public Action<float> OnClawRotated;
+
         private Stove stove;
 
         private RecipeTask currentRecipeTask;
@@ -74,6 +79,17 @@ namespace iCook
             InitializeiCook();
 
             StartCooking(eRecipe.RECIPE_AMERICAN_PEPPER_CHICKEN);
+        }
+
+        public void RotateClaw(float rotateBy)
+        {
+            clawRotator.DOKill();
+            clawRotator.DOBlendableLocalRotateBy(new Vector3(0f, rotateBy, 0f), 1f).OnComplete(RotateClawComplete);
+        }
+
+        private void RotateClawComplete()
+        {
+            OnClawRotated?.Invoke(clawRotator.localRotation.eulerAngles.y);
         }
 
         public void TemperatureIncreased()

@@ -21,8 +21,12 @@ namespace iCook
         {
             if (clawState == eClawState.CLAW_CLOSED)
             {
-                RackSlot rackSlot = (RackSlot)payload;
-                rackSlot.AttachToClaw();
+                if(payload != null)
+                {
+                    RackSlot rackSlot = (RackSlot)payload;
+                    rackSlot.AttachToClaw();
+                }
+
                 OnStateComplete();
             }
         }

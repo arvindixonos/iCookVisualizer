@@ -21,6 +21,8 @@ namespace iCook
         {
             if(clawState == eClawState.CLAW_OPEN)
             {
+                RackSlot rackSlot = (RackSlot)payload;
+                rackSlot.DetchFromClaw();
                 OnStateComplete();
             }
         }
