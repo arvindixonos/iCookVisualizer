@@ -13,6 +13,14 @@
     {
       "recipeTask": "Add Ingredient",
       "payload": "Oil"
+    },
+	  {
+      "recipeTask": "Stir",
+      "payload": "circle"
+    },
+     {
+      "recipeTask": "Stir",
+      "payload": "swipe"
     }
   ]
 }

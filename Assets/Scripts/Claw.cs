@@ -33,10 +33,10 @@ namespace iCook
             SetClawState(eClawState.CLAW_OPENING);
 
             leftClaw.DOKill();
-            leftClaw.DOLocalRotate(new Vector3(0f, 0f, -50f), 1f).OnComplete(OpenClawComplete);
+            leftClaw.DOLocalRotate(new Vector3(0f, 0f, -50f), 0.5f).OnComplete(OpenClawComplete).SetEase(Ease.Linear);
 
             rightClaw.DOKill();
-            rightClaw.DOLocalRotate(new Vector3(0f, 0f, 50f), 1f);
+            rightClaw.DOLocalRotate(new Vector3(0f, 0f, 50f), 0.5f).SetEase(Ease.Linear);
         }
 
         void OpenClawComplete()

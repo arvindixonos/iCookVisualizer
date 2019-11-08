@@ -83,18 +83,28 @@ namespace iCook
 
             switch (recipeTask.recipeTaskEnum)
             {
-                //case eRecipeTask.TASK_IDLE:
-                //    SetIdleTask();
-                //    break;
+                case eRecipeTask.TASK_IDLE:
+                    SetIdleTask();
+                    break;
 
-                //case eRecipeTask.TASK_SET_TEMPERATURE:
-                //    SetTemperatureTask(recipeTask);
-                //    break;
+                case eRecipeTask.TASK_SET_TEMPERATURE:
+                    SetTemperatureTask(recipeTask);
+                    break;
 
                 case eRecipeTask.TASK_ADD_INGREDIENT:
                     SetAddIngredientTask(recipeTask);
                     break;
+
+                case eRecipeTask.TASK_STIR:
+                    SetStirTask(recipeTask);
+                    break;
             }
+        }
+
+        void SetStirTask(RecipeTask recipeTask)
+        {
+            State stirState = new StirState(recipeTask.payload);
+            states.Enqueue(stirState);
         }
 
         void SetIdleTask()
@@ -151,6 +161,7 @@ namespace iCook
 
             closeClawState = new CloseClawState();
             states.Enqueue(closeClawState);
+
         }
 
         void SetTemperatureTask(RecipeTask recipeTask)

@@ -47,6 +47,8 @@ namespace iCook
         public Transform clawRotator;
         public Action<float> OnClawRotated;
 
+        public StirManager stirManager;
+
         private Stove stove;
 
         private RecipeTask currentRecipeTask;
